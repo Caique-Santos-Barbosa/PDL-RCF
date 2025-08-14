@@ -1,0 +1,36 @@
+name: Deploy to Replit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run tests
+      run: |
+        python replit_start.py
+        
+    - name: Deploy to Replit
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: replit/action-deploy@v1
+      with:
+        replit-token: ${{ secrets.REPLIT_TOKEN }}
+        replit-url: ${{ secrets.REPLIT_URL }} 

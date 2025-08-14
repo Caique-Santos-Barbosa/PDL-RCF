@@ -1,0 +1,25 @@
+# Dependências principais
+flask>=2.0.0
+flask-socketio>=5.0.0
+python-socketio>=5.0.0
+eventlet>=0.33.0
+
+# Processamento de imagem e reconhecimento facial
+opencv-python>=4.8.0
+face-recognition>=1.3.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# Requisições HTTP
+requests>=2.31.0
+
+# Utilitários
+werkzeug>=2.0.0
+cmake>=3.27.0
+
+# Para compatibilidade com Replit (substitui dlib Windows)
+dlib-binary>=19.22.0
+
+# Nota: O dlib-binary é uma versão pré-compilada que funciona melhor no Replit
+# Se houver problemas, o Replit pode compilar o dlib automaticamente
+

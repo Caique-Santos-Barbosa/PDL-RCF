@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  porta-facial:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - REPLIT_MODE=false
+    volumes:
+      - ./static:/app/static
+      - ./templates:/app/templates
+      - ./data:/app/data
+    restart: unless-stopped
+    
+  # Serviço opcional para desenvolvimento
+  porta-facial-dev:
+    build: .
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=development
+      - REPLIT_MODE=false
+    volumes:
+      - .:/app
+    command: ["python", "app.py"]
+    profiles:
+      - dev 

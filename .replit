@@ -1,0 +1,26 @@
+language = "python3"
+run = "python test_replit_compatibility.py && python replit_start.py && python app.py"
+
+[nix]
+channel = "stable-23_11"
+
+[env]
+PYTHONPATH = "${PYTHONPATH}:/home/runner/${REPL_SLUG}"
+
+[packager]
+language = "python3"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+
+[languages.python3]
+pattern = "**/*.py"
+syntax = "python"
+
+[languages.python3.languageServer]
+start = [ "pylsp" ]
+
+[deployment]
+run = ["sh", "-c", "python app.py"]
+deploymentTarget = "cloudrun" 

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "porta-facial-v1"
+version = "1.0.0"
+description = "Sistema de reconhecimento facial para controle de porta"
+authors = [
+    {name = "Caique Santos Barbosa", email = "caiquesantosbarbosa@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "flask>=2.0.0",
+    "flask-socketio>=5.0.0",
+    "opencv-python>=4.8.0",
+    "face-recognition>=1.3.0",
+    "numpy>=1.24.0",
+    "Pillow>=10.0.0",
+    "requests>=2.31.0",
+    "werkzeug>=2.0.0",
+    "python-socketio>=5.0.0",
+    "eventlet>=0.33.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"] 
