@@ -20,4 +20,6 @@ services:
         generateValue: true
     healthCheckPath: /
     autoDeploy: true
-    region: oregon 
+    region: oregon
+    # Especificar que não é Docker
+    dockerfilePath: null 
