@@ -31,30 +31,47 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## 🤖 Suporte à IA do Replit
+## 🤖 Suporte Total à IA do Replit
 
-Este projeto foi **especificamente configurado** para funcionar com a IA do Replit:
+Este projeto foi **especificamente configurado** para máxima compatibilidade com o Replit Agent e Assistant:
 
 ### ✅ Funcionalidades da IA Habilitadas
-- **Code Completion** - Autocompletar código
-- **Code Explanation** - Explicar código
-- **Code Generation** - Gerar código
-- **Bug Detection** - Detectar bugs
-- **Refactoring** - Refatorar código
+- **Code Completion** - Autocompletar código em tempo real
+- **Code Explanation** - Explicar qualquer parte do código
+- **Code Generation** - Gerar funcionalidades completas
+- **Bug Detection** - Detectar e corrigir bugs automaticamente
+- **Refactoring** - Melhorar e otimizar código existente
+- **Auto Apply Changes** - Aplicar mudanças automaticamente
 
-### 🔧 Configurações Otimizadas
-- **Modelo**: GPT-4
-- **Memória**: 2GB
-- **CPU**: 2 cores
-- **Debug**: Habilitado
-- **Package Search**: Habilitado
+### 🔧 Configurações Otimizadas para IA
+- **Modelo**: GPT-4 (mais avançado)
+- **Memória**: 2GB otimizada
+- **CPU**: 2 cores dedicados
+- **Debug**: Totalmente habilitado
+- **Package Search**: Busca inteligente
+- **Code Context**: Contexto completo do projeto
 
-### 📝 Como Usar a IA
-1. Abra o projeto no Replit
-2. Use `Ctrl + K` para abrir a IA
-3. Faça perguntas sobre o código
-4. Peça para gerar novas funcionalidades
-5. Solicite explicações de partes do código
+### 📝 Como Usar a IA (Guia Rápido)
+1. **Abrir IA**: Use `Ctrl + K` ou clique no ícone da IA
+2. **Assistant Mode**: Use Advanced Assistant para mudanças automáticas
+3. **Agent Mode**: Use para criar funcionalidades completas
+4. **Perguntas Inteligentes**: 
+   - "Explique esta função"
+   - "Crie um sistema de backup"
+   - "Otimize esta performance"
+   - "Adicione validação aqui"
+
+### 🎯 Exemplos Práticos de Uso
+```
+✨ "Adicione um sistema de notificações em tempo real"
+🔧 "Melhore a performance do reconhecimento facial"
+🐛 "Analise e corrija este erro"
+📊 "Crie um dashboard de analytics"
+🔒 "Implemente autenticação JWT"
+```
+
+### 📚 Documentação Completa
+Veja o arquivo `AI_USAGE_GUIDE.md` para guia detalhado de uso da IA.
 
 ## 📋 Funcionalidades
 

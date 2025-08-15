@@ -1,23 +1,44 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, send_file, session
+"""
+Sistema de Reconhecimento Facial PDL-RCF
+========================================
+
+Este é um sistema completo de reconhecimento facial para controle de porta
+desenvolvido especificamente para funcionar no ambiente Replit com suporte
+total à IA do Replit.
+
+Funcionalidades principais:
+- Reconhecimento facial em tempo real
+- Interface web responsiva
+- Sistema de usuários completo
+- Upload de mídia personalizada
+- Controle de porta (simulado no Replit)
+- Histórico de acessos
+- Sistema de licenciamento
+
+Compatibilidade:
+- ✅ 100% compatível com Replit
+- ✅ Suporte completo à IA do Replit
+- ✅ Optimizado para demonstração e desenvolvimento
+"""
+
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, session
 from flask_socketio import SocketIO, emit
-import os
-from werkzeug.utils import secure_filename
-import threading
-import cv2
 import face_recognition
+import cv2
 import numpy as np
-import base64
-import time
-from PIL import Image
-import io
-import requests
+import os
 import json
-from datetime import datetime, timedelta
-from shutil import rmtree
-from flask import session as flask_session
+import base64
+from datetime import datetime
+import io
+from PIL import Image
+import threading
+import time
+from werkzeug.utils import secure_filename
 import mimetypes
 import unicodedata
 from functools import wraps
+from shutil import rmtree
 
 # Importar configurações do Replit
 try:
@@ -133,12 +154,12 @@ class FacialRecognitionSystem:
         self.known_face_encodings = []
         self.known_face_names = []
         print("Carregando rostos conhecidos dos usuários...")
-        
+
         # Verificar se o diretório existe
         if not os.path.exists(users_dir):
             print(f"Diretório de usuários não encontrado: {users_dir}")
             return
-            
+
         for email in os.listdir(users_dir):
             user_dir = os.path.join(users_dir, email)
             foto_path = os.path.join(user_dir, 'foto.jpg')
@@ -208,14 +229,14 @@ def salvar_usuario(usuario):
     user_dir = os.path.join(app.config['USERS_FOLDER'], usuario.email)
     if not os.path.exists(user_dir):
         os.makedirs(user_dir)
-    
+
     with open(os.path.join(user_dir, 'profile.json'), 'w', encoding='utf-8') as f:
         json.dump(usuario.to_dict(), f, ensure_ascii=False, indent=2)
 
 def carregar_usuario(email):
     user_dir = os.path.join(app.config['USERS_FOLDER'], email)
     profile_path = os.path.join(user_dir, 'profile.json')
-    
+
     if os.path.exists(profile_path):
         with open(profile_path, 'r', encoding='utf-8') as f:
             return UserProfile.from_dict(json.load(f))
@@ -240,13 +261,13 @@ def api_criar_usuario():
     nome = data.get('nome')
     email = data.get('email')
     cargo = data.get('cargo')
-    
+
     if not nome or not email:
         return jsonify({'status': 'error', 'message': 'Nome e email são obrigatórios'})
-    
+
     if carregar_usuario(email):
         return jsonify({'status': 'error', 'message': 'Usuário já existe'})
-    
+
     usuario = UserProfile(nome, email, cargo)
     salvar_usuario(usuario)
     return jsonify({'status': 'success', 'message': 'Usuário criado com sucesso'})
@@ -263,7 +284,7 @@ def api_atualizar_usuario(email):
     usuario = carregar_usuario(email)
     if not usuario:
         return jsonify({'status': 'error', 'message': 'Usuário não encontrado'})
-    
+
     data = request.get_json()
     user_dir = os.path.join(app.config['USERS_FOLDER'], email)
     if 'nome' in data:
@@ -302,19 +323,19 @@ def api_upload_foto_usuario(email):
     usuario = carregar_usuario(email)
     if not usuario:
         return jsonify({'status': 'error', 'message': 'Usuário não encontrado'})
-    
+
     data = request.get_json()
     imagem = data.get('imagem')
     if not imagem:
         return jsonify({'status': 'error', 'message': 'Imagem não enviada'})
-    
+
     try:
         user_dir = os.path.join(app.config['USERS_FOLDER'], email)
         img_bytes = base64.b64decode(imagem.split(',')[1])
         path = os.path.join(user_dir, 'foto.jpg')
         with open(path, 'wb') as f:
             f.write(img_bytes)
-        
+
         usuario.foto = f'/static/users/{email}/foto.jpg'
         salvar_usuario(usuario)
         return jsonify({'status': 'success', 'message': 'Foto atualizada com sucesso', 'foto': usuario.foto})
@@ -326,17 +347,17 @@ def api_upload_midia_usuario(email):
     usuario = carregar_usuario(email)
     if not usuario:
         return jsonify({'status': 'error', 'message': 'Usuário não encontrado'})
-    
+
     data = request.get_json()
     tipo = data.get('tipo')  # 'musica' ou 'fundo'
     arquivo = data.get('arquivo')
     if not arquivo:
         return jsonify({'status': 'error', 'message': 'Arquivo não enviado'})
-    
+
     try:
         user_dir = os.path.join(app.config['USERS_FOLDER'], email)
         file_bytes = base64.b64decode(arquivo.split(',')[1])
-        
+
         if tipo == 'musica':
             path = os.path.join(user_dir, 'musica.mp3')
             usuario.musica_personalizada = f'/static/users/{email}/musica.mp3'
@@ -422,11 +443,11 @@ def user_recognition():
         rgb_small_frame = small_frame[:, :, ::-1]
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
-        
+
         # Verificar se há rostos conhecidos carregados
         if not facial_system.known_face_encodings:
             return jsonify({'status': 'error', 'message': 'Nenhum rosto conhecido carregado'})
-        
+
         for face_encoding, loc in zip(face_encodings, face_locations):
             matches = face_recognition.compare_faces(facial_system.known_face_encodings, face_encoding, tolerance=0.6)
             name = None
@@ -510,7 +531,7 @@ def abrir_porta():
             "simulation": True,
             "replit_mode": True
         })
-    
+
     # Verificar conectividade primeiro
     if not check_porta_connectivity():
         print("Servidor da porta não está acessível - usando modo simulação")
@@ -520,7 +541,7 @@ def abrir_porta():
             "message": "Acesso registrado (modo simulação - servidor da porta offline)",
             "simulation": True
         })
-    
+
     try:
         session = get_porta_session()
         if not session:
@@ -577,18 +598,18 @@ def status_porta():
     try:
         # Verificar conectividade
         conectividade = check_porta_connectivity()
-        
+
         if not conectividade:
             return jsonify({
-                "status": "offline", 
+                "status": "offline",
                 "message": "Servidor da porta não está acessível",
                 "connectivity": False
             })
-        
+
         session = get_porta_session()
         if not session:
             return jsonify({
-                "status": "error", 
+                "status": "error",
                 "message": "Erro ao autenticar",
                 "connectivity": True
             }), 500
@@ -602,20 +623,20 @@ def status_porta():
             # Aqui você pode adicionar a lógica para interpretar a resposta
             # e determinar o status real da porta
             return jsonify({
-                "status": "online", 
+                "status": "online",
                 "message": status_resp.text,
                 "connectivity": True
             })
         else:
             return jsonify({
-                "status": "error", 
+                "status": "error",
                 "message": "Erro ao obter status da porta",
                 "connectivity": True
             }), 500
     except Exception as e:
         print("Erro ao verificar status:", e)
         return jsonify({
-            "status": "error", 
+            "status": "error",
             "message": str(e),
             "connectivity": check_porta_connectivity()
         }), 500
@@ -723,36 +744,36 @@ def api_playlist_get():
 def api_playlist_post():
     data = request.get_json()
     playlist = data.get('playlist', [])
-    
+
     # Validar se todos os vídeos existem
     valid_playlist = []
     for video in playlist:
         if os.path.exists(os.path.join(VIDEOS_DIR, video)):
             valid_playlist.append(video)
-    
+
     with open(PLAYLIST_PATH, 'w', encoding='utf-8') as f:
         json.dump({'playlist': valid_playlist}, f, ensure_ascii=False, indent=2)
-    
+
     # Emitir evento para atualizar todos os painéis
     socketio.emit('playlist_updated', {'playlist': valid_playlist})
-    
+
     return jsonify({'status': 'success', 'message': 'Playlist atualizada com sucesso'})
 
 @app.route('/api/upload_video', methods=['POST'])
 def api_upload_video():
     if 'videos' not in request.files:
         return jsonify({'status': 'error', 'message': 'Arquivo não enviado'})
-    
+
     files = request.files.getlist('videos')
     uploaded_files = []
-    
+
     for file in files:
         if file and file.filename:
             filename = secure_filename(file.filename)
             save_path = os.path.join(VIDEOS_DIR, filename)
             file.save(save_path)
             uploaded_files.append(filename)
-    
+
     if uploaded_files:
         return jsonify({'status': 'success', 'message': f'{len(uploaded_files)} vídeos enviados com sucesso'})
     return jsonify({'status': 'error', 'message': 'Nenhum vídeo válido enviado'})
@@ -1023,5 +1044,5 @@ if __name__ == '__main__':
     print(f"Host: {DEFAULT_HOST}, Porta: {DEFAULT_PORT}")
     print(f"Debug: {DEBUG_MODE}")
     print(f"Controle de porta: {'Desabilitado' if DISABLE_PORT_CONTROL else 'Habilitado'}")
-    
-    socketio.run(app, host=DEFAULT_HOST, port=DEFAULT_PORT, debug=DEBUG_MODE) 
+
+    socketio.run(app, host=DEFAULT_HOST, port=DEFAULT_PORT, debug=DEBUG_MODE)

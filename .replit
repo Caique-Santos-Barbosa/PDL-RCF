@@ -1,33 +1,27 @@
-language = "python3"
-run = "python test_replit_compatibility.py && python replit_start.py && python app.py"
 
 [nix]
 channel = "stable-23_11"
 
+[deployment]
+run = ["python", "app.py"]
+deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
 [env]
-PYTHONPATH = "${PYTHONPATH}:/home/runner/${REPL_SLUG}"
-PYTHONUNBUFFERED = "1"
-
-[packager]
-language = "python3"
-
-[packager.features]
-packageSearch = true
-guessImports = true
-enabledForHosting = true
+FLASK_ENV = "production"
+PYTHONPATH = "$PYTHONPATH:."
+REPLIT_MODE = "true"
+DEBUG_MODE = "true"
 
 [languages.python3]
 pattern = "**/*.py"
-syntax = "python"
 
 [languages.python3.languageServer]
-start = [ "pylsp" ]
+start = "pylsp"
 
-[deployment]
-run = ["sh", "-c", "python app.py"]
-deploymentTarget = "cloudrun"
-
-# Configurações para melhorar o suporte
 [ai]
 enabled = true
 model = "gpt-4"
@@ -39,12 +33,48 @@ codeGeneration = true
 bugDetection = true
 refactoring = true
 
-# Configurações de performance
+[packager]
+language = "python3"
+ignoredPackages = ["unit_tests"]
+
+[packager.features]
+enabledForHosting = false
+packageSearch = true
+guessImports = true
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix"]
+
 [performance]
 memoryLimit = "2GB"
 cpuLimit = "2"
 
-# Configurações de debug
 [debug]
 enabled = true
-port = 5000 
+port = 5000
+
+[interpreter]
+command = ["python", "-u", "app.py"]
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Desenvolvimento com IA"
+author = 46436389
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🤖 Verificando compatibilidade com IA do Replit...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test_replit_compatibility.py"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"✅ Projeto pronto para uso com IA!\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app.py"
