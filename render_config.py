@@ -55,4 +55,13 @@ LOG_LEVEL = 'INFO' if RENDER_MODE else 'DEBUG'
 if RENDER_MODE:
     DATABASE_URL = os.environ.get('DATABASE_URL', None)
 else:
-    DATABASE_URL = None 
+    DATABASE_URL = None
+
+# Configurações específicas para face_recognition no Render
+try:
+    import face_recognition
+    FACE_RECOGNITION_AVAILABLE = True
+    print("✅ face_recognition carregado com sucesso")
+except ImportError:
+    FACE_RECOGNITION_AVAILABLE = False
+    print("⚠️ face_recognition não disponível - usando modo simulação") 

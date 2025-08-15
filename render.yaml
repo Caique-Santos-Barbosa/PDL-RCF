@@ -3,7 +3,10 @@ services:
     name: pdl-rcf
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      pip install --upgrade pip
+      apt-get update && apt-get install -y cmake build-essential
+      pip install -r requirements.txt
     startCommand: python app.py
     envVars:
       - key: PYTHON_VERSION

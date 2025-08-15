@@ -161,12 +161,19 @@ class FacialRecognitionSystem:
         self.known_face_encodings = []
         self.known_face_names = []
         print("Carregando rostos conhecidos dos usuários...")
-
+        
         # Verificar se o diretório existe
         if not os.path.exists(users_dir):
             print(f"Diretório de usuários não encontrado: {users_dir}")
             return
-
+        
+        # Verificar se face_recognition está disponível
+        try:
+            import face_recognition
+        except ImportError:
+            print("⚠️ face_recognition não disponível - usando modo simulação")
+            return
+            
         for email in os.listdir(users_dir):
             user_dir = os.path.join(users_dir, email)
             foto_path = os.path.join(user_dir, 'foto.jpg')
