@@ -57,6 +57,7 @@ port = 5000
 command = ["python", "-u", "app.py"]
 
 [workflows]
+runButton = "Desenvolvimento com IA"
 
 [[workflows.workflow]]
 name = "Desenvolvimento com IA"
