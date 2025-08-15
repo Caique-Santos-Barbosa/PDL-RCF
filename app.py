@@ -449,7 +449,41 @@ def user_recognition():
     image_data = data.get('image')
     if not image_data:
         return jsonify({'status': 'error', 'message': 'Imagem não enviada'})
+    
+    # Verificar se estamos em modo simulação (Render)
     try:
+        from render_config import SIMULATION_MODE
+        if SIMULATION_MODE:
+            from render_simulation import simulate_face_recognition
+            result = simulate_face_recognition(image_data)
+            
+            if result['status'] == 'success':
+                name = result['name']
+                # Buscar perfil do usuário pelo nome
+                usuarios = listar_usuarios()
+                perfil = next((u for u in usuarios if u['nome'] == name), None)
+                foto_url = perfil['foto'] if perfil and perfil['foto'] else f'/static/known_faces/{name}.jpg'
+                
+                # Dispara evento de boas-vindas com dados personalizados
+                socketio.emit('boas_vindas', {
+                    'nome': name,
+                    'foto': foto_url,
+                    'musica': perfil['musica_personalizada'] if perfil else None,
+                    'fundo': perfil['fundo_personalizado'] if perfil else None,
+                    'tipo_fundo': perfil['tipo_fundo'] if perfil else 'video',
+                    'simulation': True
+                })
+                abrir_porta()
+                registrar_acesso(name, 'Acesso concedido (simulação)')
+                return jsonify({'status': 'success', 'name': name, 'simulation': True})
+            else:
+                return jsonify(result)
+    except ImportError:
+        pass  # Continuar com reconhecimento normal
+    
+    # Reconhecimento facial normal
+    try:
+        import face_recognition
         image_bytes = base64.b64decode(image_data.split(',')[1])
         img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
         frame = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
@@ -457,11 +491,11 @@ def user_recognition():
         rgb_small_frame = small_frame[:, :, ::-1]
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
-
+        
         # Verificar se há rostos conhecidos carregados
         if not facial_system.known_face_encodings:
             return jsonify({'status': 'error', 'message': 'Nenhum rosto conhecido carregado'})
-
+        
         for face_encoding, loc in zip(face_encodings, face_locations):
             matches = face_recognition.compare_faces(facial_system.known_face_encodings, face_encoding, tolerance=0.6)
             name = None
@@ -484,6 +518,8 @@ def user_recognition():
                 registrar_acesso(name, 'Acesso concedido')
                 return jsonify({'status': 'success', 'name': name})
         return jsonify({'status': 'fail'})
+    except ImportError:
+        return jsonify({'status': 'error', 'message': 'face_recognition não disponível'})
     except Exception as e:
         print(f"Erro no reconhecimento facial: {e}")
         return jsonify({'status': 'error', 'message': str(e)})

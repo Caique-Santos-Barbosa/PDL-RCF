@@ -15,10 +15,9 @@ requests>=2.31.0
 
 # Utilitários
 werkzeug>=2.0.0
-cmake>=3.27.0
 
 # Para produção (Render) - dlib será compilado automaticamente
-# dlib-binary>=19.22.0  # Removido - causando problemas no Render
+# cmake>=3.27.0  # Removido - não necessário no Render
 
 # Dependências para produção (Render)
 gunicorn>=20.0.0

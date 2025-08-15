@@ -64,4 +64,11 @@ try:
     print("✅ face_recognition carregado com sucesso")
 except ImportError:
     FACE_RECOGNITION_AVAILABLE = False
-    print("⚠️ face_recognition não disponível - usando modo simulação") 
+    print("⚠️ face_recognition não disponível - usando modo simulação")
+
+# Configurações específicas para Render - modo simulação
+if RENDER_MODE and not FACE_RECOGNITION_AVAILABLE:
+    print("🎭 Render: Ativando modo simulação para demonstração")
+    SIMULATION_MODE = True
+else:
+    SIMULATION_MODE = False 
