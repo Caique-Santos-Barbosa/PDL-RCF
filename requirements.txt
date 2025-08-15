@@ -20,6 +20,16 @@ cmake>=3.27.0
 # Para compatibilidade com Replit (substitui dlib Windows)
 dlib-binary>=19.22.0
 
+# Dependências opcionais para produção
+gunicorn>=20.0.0
+gevent>=22.0.0
+
+# Dependências de desenvolvimento
+pytest>=7.0.0
+black>=22.0.0
+flake8>=5.0.0
+mypy>=1.0.0
+
 # Nota: O dlib-binary é uma versão pré-compilada que funciona melhor no Replit
 # Se houver problemas, o Replit pode compilar o dlib automaticamente
 

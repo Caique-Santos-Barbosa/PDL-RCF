@@ -3,14 +3,29 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "porta-facial-v1"
+name = "pdl-rcf"
 version = "1.0.0"
-description = "Sistema de reconhecimento facial para controle de porta"
+description = "Sistema de reconhecimento facial para controle de porta com interface web moderna"
 authors = [
     {name = "Caique Santos Barbosa", email = "caiquesantosbarbosa@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.8"
+license = {text = "MIT"}
+keywords = ["facial-recognition", "flask", "opencv", "replit", "door-control", "web-interface"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+]
 dependencies = [
     "flask>=2.0.0",
     "flask-socketio>=5.0.0",
@@ -22,6 +37,7 @@ dependencies = [
     "werkzeug>=2.0.0",
     "python-socketio>=5.0.0",
     "eventlet>=0.33.0",
+    "cmake>=3.27.0",
 ]
 
 [project.optional-dependencies]
@@ -29,7 +45,22 @@ dev = [
     "pytest>=7.0.0",
     "black>=22.0.0",
     "flake8>=5.0.0",
+    "mypy>=1.0.0",
 ]
+replit = [
+    "dlib-binary>=19.22.0",
+]
+production = [
+    "gunicorn>=20.0.0",
+    "gevent>=22.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Caique-Santos-Barbosa/PDL-RCF"
+Repository = "https://github.com/Caique-Santos-Barbosa/PDL-RCF"
+Documentation = "https://github.com/Caique-Santos-Barbosa/PDL-RCF#readme"
+Issues = "https://github.com/Caique-Santos-Barbosa/PDL-RCF/issues"
+"Bug Tracker" = "https://github.com/Caique-Santos-Barbosa/PDL-RCF/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -40,4 +71,14 @@ target-version = ['py38']
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"] 
+python_files = ["test_*.py"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"] 

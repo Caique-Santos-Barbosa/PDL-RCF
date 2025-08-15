@@ -11,6 +11,7 @@ Sistema de reconhecimento facial para controle de porta com interface web modern
 - **Sistema de licenciamento** com controle de acesso
 - **Histórico de acessos** em tempo real
 - **100% compatível com Replit** para demonstração e desenvolvimento
+- **Suporte completo à IA do Replit** com configurações otimizadas
 
 ## 🚀 Deploy Rápido
 
@@ -29,6 +30,31 @@ cd PDL-RCF
 pip install -r requirements.txt
 python app.py
 ```
+
+## 🤖 Suporte à IA do Replit
+
+Este projeto foi **especificamente configurado** para funcionar com a IA do Replit:
+
+### ✅ Funcionalidades da IA Habilitadas
+- **Code Completion** - Autocompletar código
+- **Code Explanation** - Explicar código
+- **Code Generation** - Gerar código
+- **Bug Detection** - Detectar bugs
+- **Refactoring** - Refatorar código
+
+### 🔧 Configurações Otimizadas
+- **Modelo**: GPT-4
+- **Memória**: 2GB
+- **CPU**: 2 cores
+- **Debug**: Habilitado
+- **Package Search**: Habilitado
+
+### 📝 Como Usar a IA
+1. Abra o projeto no Replit
+2. Use `Ctrl + K` para abrir a IA
+3. Faça perguntas sobre o código
+4. Peça para gerar novas funcionalidades
+5. Solicite explicações de partes do código
 
 ## 📋 Funcionalidades
 
@@ -99,6 +125,7 @@ PDL-RCF/
 | Ambiente | Status | Observações |
 |----------|--------|-------------|
 | **Replit** | ✅ 100% | Funciona perfeitamente |
+| **Replit AI** | ✅ 100% | Suporte completo habilitado |
 | **Local** | ✅ 100% | Todas as funcionalidades |
 | **Docker** | ✅ 100% | Containerizado |
 | **Produção** | ✅ 100% | Pronto para deploy |
@@ -182,6 +209,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 **Desenvolvido com ❤️ por Caique Santos Barbosa**
 
 [![Replit](https://img.shields.io/badge/Replit-100%25%20Compatible-brightgreen)](https://replit.com)
+[![Replit AI](https://img.shields.io/badge/Replit%20AI-Supported-blue)](https://replit.com)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.0+-red)](https://flask.palletsprojects.com)
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.8+-green)](https://opencv.org)
