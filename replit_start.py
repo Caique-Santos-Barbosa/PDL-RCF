@@ -17,7 +17,7 @@ def check_dependencies():
         'opencv-python',
         'face_recognition',
         'numpy',
-        'PIL',
+        'Pillow',
         'requests',
         'werkzeug'
     ]
@@ -26,12 +26,14 @@ def check_dependencies():
     
     for package in required_packages:
         try:
-            if package == 'PIL':
+            if package == 'Pillow':
                 importlib.import_module('PIL')
             elif package == 'opencv-python':
                 importlib.import_module('cv2')
             elif package == 'face_recognition':
                 importlib.import_module('face_recognition')
+            elif package == 'flask_socketio':
+                importlib.import_module('flask_socketio')
             else:
                 importlib.import_module(package.replace('-', '_'))
             print(f"✅ {package} - OK")

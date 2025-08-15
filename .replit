@@ -66,15 +66,11 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "echo \"🤖 Verificando compatibilidade com IA do Replit...\""
+args = "echo \"🤖 Iniciando Porta Facial V1 no Replit...\""
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python test_replit_compatibility.py"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "echo \"✅ Projeto pronto para uso com IA!\""
+args = "python replit_start.py"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
