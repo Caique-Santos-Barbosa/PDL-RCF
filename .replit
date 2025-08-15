@@ -70,8 +70,8 @@ args = "echo \"🤖 Iniciando Porta Facial V1 no Replit...\""
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python replit_start.py"
+args = "python3 replit_start.py"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python app.py"
+args = "python3 app.py"
