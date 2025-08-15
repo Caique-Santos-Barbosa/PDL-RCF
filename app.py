@@ -40,22 +40,29 @@ import unicodedata
 from functools import wraps
 from shutil import rmtree
 
-# Importar configurações do Replit
+# Importar configurações do ambiente
 try:
     from replit_config import *
+    print("✅ Configurações Replit carregadas")
 except ImportError:
-    # Fallback para configurações padrão se o arquivo não existir
-    REPLIT_MODE = False
-    DEFAULT_PORT = 5000
-    DEFAULT_HOST = '0.0.0.0'
-    DEBUG_MODE = True
-    MAX_CONTENT_LENGTH = 500 * 1024 * 1024
-    UPLOAD_FOLDER = 'static/videos'
-    USERS_FOLDER = 'static/users'
-    SECRET_KEY = 'Gds2024aa@@_PainelFacial_2024_!@#_Un1c0_S3gr3d0'
-    DISABLE_PORT_CONTROL = False
-    DISABLE_CAMERA = False
-    LOG_LEVEL = 'DEBUG'
+    try:
+        from render_config import *
+        print("✅ Configurações Render carregadas")
+    except ImportError:
+        # Fallback para configurações padrão se nenhum arquivo existir
+        print("⚠️ Usando configurações padrão")
+        REPLIT_MODE = False
+        RENDER_MODE = False
+        DEFAULT_PORT = 5000
+        DEFAULT_HOST = '0.0.0.0'
+        DEBUG_MODE = True
+        MAX_CONTENT_LENGTH = 500 * 1024 * 1024
+        UPLOAD_FOLDER = 'static/videos'
+        USERS_FOLDER = 'static/users'
+        SECRET_KEY = 'Gds2024aa@@_PainelFacial_2024_!@#_Un1c0_S3gr3d0'
+        DISABLE_PORT_CONTROL = False
+        DISABLE_CAMERA = False
+        LOG_LEVEL = 'DEBUG'
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -1040,9 +1047,15 @@ def api_contato_licenciamento():
     return jsonify(load_contato_licenciamento())
 
 if __name__ == '__main__':
-    print(f"Iniciando aplicação em modo {'Replit' if REPLIT_MODE else 'Local'}")
+    if REPLIT_MODE:
+        print(f"Iniciando aplicação em modo Replit")
+    elif RENDER_MODE:
+        print(f"Iniciando aplicação em modo Render")
+    else:
+        print(f"Iniciando aplicação em modo Local")
+    
     print(f"Host: {DEFAULT_HOST}, Porta: {DEFAULT_PORT}")
     print(f"Debug: {DEBUG_MODE}")
     print(f"Controle de porta: {'Desabilitado' if DISABLE_PORT_CONTROL else 'Habilitado'}")
-
+    
     socketio.run(app, host=DEFAULT_HOST, port=DEFAULT_PORT, debug=DEBUG_MODE)

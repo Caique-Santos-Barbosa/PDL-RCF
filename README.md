@@ -15,7 +15,15 @@ Sistema de reconhecimento facial para controle de porta com interface web modern
 
 ## 🚀 Deploy Rápido
 
-### No Replit (Recomendado)
+### No Render (Produção - Recomendado)
+1. Acesse [render.com](https://render.com)
+2. Clique em "New +" → "Web Service"
+3. Conecte este repositório GitHub
+4. Configure as variáveis de ambiente
+5. Deploy automático
+6. Acesse a URL fornecida
+
+### No Replit (Desenvolvimento)
 1. Acesse [replit.com](https://replit.com)
 2. Clique em "Create Repl"
 3. Escolha "Python"
@@ -141,7 +149,8 @@ PDL-RCF/
 
 | Ambiente | Status | Observações |
 |----------|--------|-------------|
-| **Replit** | ✅ 100% | Funciona perfeitamente |
+| **Render** | ✅ 100% | Produção recomendada |
+| **Replit** | ✅ 100% | Desenvolvimento |
 | **Replit AI** | ✅ 100% | Suporte completo habilitado |
 | **Local** | ✅ 100% | Todas as funcionalidades |
 | **Docker** | ✅ 100% | Containerizado |
@@ -225,7 +234,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 **Desenvolvido com ❤️ por Caique Santos Barbosa**
 
-[![Replit](https://img.shields.io/badge/Replit-100%25%20Compatible-brightgreen)](https://replit.com)
+[![Render](https://img.shields.io/badge/Render-Deploy%20Ready-brightgreen)](https://render.com)
+[![Replit](https://img.shields.io/badge/Replit-100%25%20Compatible-blue)](https://replit.com)
 [![Replit AI](https://img.shields.io/badge/Replit%20AI-Supported-blue)](https://replit.com)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.0+-red)](https://flask.palletsprojects.com)

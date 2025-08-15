@@ -20,9 +20,10 @@ cmake>=3.27.0
 # Para compatibilidade com Replit (substitui dlib Windows)
 dlib-binary>=19.22.0
 
-# Dependências opcionais para produção
+# Dependências para produção (Render)
 gunicorn>=20.0.0
 gevent>=22.0.0
+gevent-websocket>=0.10.1
 
 # Dependências de desenvolvimento
 pytest>=7.0.0
